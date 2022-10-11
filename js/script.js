@@ -42,4 +42,10 @@ let totalCost = 0;
 registration.addEventListener("change", (e) => {
     const cost = e.target.getAttribute("data-cost");
     const totalData = +cost;
+
+    if (e.target.checked) {
+        totalCost += totalData;
+    } else {
+        totalCost -= totalData;
+    }
 });

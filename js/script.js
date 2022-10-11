@@ -40,8 +40,6 @@ const total = document.getElementById("activities-cost");
 let totalCost = 0;
 
 registration.addEventListener("change", (e) => {
-    var cost = e.target.getAttribute("data-cost");
-    var totalData = +cost;
+    const cost = e.target.getAttribute("data-cost");
+    const totalData = +cost;
 });
-console.log(cost);
-console.log(typeof cost);

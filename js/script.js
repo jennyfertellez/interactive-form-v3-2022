@@ -14,7 +14,7 @@ let jobOption = document.querySelector("#title");
         } else {
             otherJob.style.display = "none";
         }
-    });
+});
 
 //"T-Shirt Info" Section
 var designChosen = document.getElementById("shirt-designs");
@@ -90,11 +90,105 @@ const cardNumber = document.querySelector('#cc-num');
 const zipCode = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 
-form.addEventListener("submit", (e) => {
-
+function nameValidation() {
     let nameValue = personName.value;
-    const testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
-    testInput(testName, personName, e);
+    let testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
+    if(!testName.test(nameValue)){
+        return false;
+    } else{
+        return true;
+    }
+}
 
-    
+function emailValidation() {
+    let emailValid = emailAddress.value;
+    let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!testEmail.test(emailValid)){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function cardValidation() {
+    let cardValid = cardNumber.value;
+    let testCard = /^\d{13,16}$/;
+    if(!testCard.test(cardValid)){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function zipValidation() {
+    let zipValid = zipCode.value;
+    let testZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/; 
+    if(!testZip.test(zipValid)){
+      return false;
+    } else{
+      return true;
+    }
+  }
+  
+function cvvValidation() {
+    let cvvValid = cvvInput.value;
+    let testCvv = /^\d{3}$/;
+    if(!testCvv.test(cvvValid)){
+      return false;
+    } else{
+      return true;
+    }
+  }
+
+
+function notValidForm(element){
+    element.parentElement.classList.add("not-valid");
+    element.parentElement.classList.remove("valid");
+    element.parentElement.querySelector(".hint").style.display = "block";
+  }
+  
+function validForm(element){
+    element.parentElement.classList.add("valid");
+    element.parentElement.classList.remove("not-valid");
+    element.parentElement.querySelector(".hint").style.display = "none";
+  
+}
+
+form.addEventListener("submit", (e) => {
+    const nameInput = nameValidation();
+    const emailInput = emailValidation();
+    const cardInput = cardValidation();
+    const zipInput = zipValidation();
+    const cvvInput = cvvValidation();
+
+    if(nameInput == false) {
+        e.preventDefault();
+        notValidForm(personName);
+    } else {
+        validForm(personName);
+    }
+
+    if(emailInput == false) {
+        e.preventDefault();
+        notValidForm(emailAddress);
+    } else {
+        validForm(emailAddress);
+    }   
+
+    if()
+
+    if(cardInput == false) {
+        e.preventDefault();
+        notValidForm(cardNumber);
+    } else {
+        validForm(cardNumber);
+    }
+
+    if(nameInput == false) {
+        e.preventDefault();
+        notValidForm(nameField);
+    } else {
+        validForm(nameField);
+    }
+
 })

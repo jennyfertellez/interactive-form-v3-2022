@@ -38,6 +38,7 @@ designChosen.addEventListener('change', (e) => {
 const registration = document.getElementById("activities");
 const total = document.getElementById("activities-cost");
 let totalCost = 0;
+const checkbox = document.querySelectorAll("input[type=checkbox]");
 
 registration.addEventListener("change", (e) => {
     const cost = e.target.getAttribute("data-cost");
@@ -48,4 +49,17 @@ registration.addEventListener("change", (e) => {
     } else {
         totalCost -= totalData;
     }
+    total.innerHTML = `Total: $${totalCost}`
 });
+
+//"Payment Info" Section:
+let payWith = document.getElementById('payment');
+let creditCard = document.getElementById('credit-card');
+let paypal = document.getElementById('paypal');
+let bitcoin = document.getElementById('bitcoin');
+
+paypal.style.display = 'none';
+bitcoin.style.display = 'none';
+
+payWith.children[1].setAttribute('selected', true);
+

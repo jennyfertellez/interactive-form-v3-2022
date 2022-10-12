@@ -1,6 +1,7 @@
 //console.log('test');
 //The "Name" Field
-document.getElementById("name").focus();
+const personName = document.querySelector("#name");
+personName.focus();
 
 //"Job Role" Section
 var otherJob = document.getElementById("other-job-role");
@@ -63,3 +64,37 @@ bitcoin.style.display = 'none';
 
 payWith.children[1].setAttribute('selected', true);
 
+payWith.addEventListener("change", (e) => {
+    if (e.target.value === 'credit-card') {
+        creditCard.style.display = 'block';
+        paypal.style.display = 'none';
+        bitcoin.style.display = 'none';
+    }
+    if (e.target.value === "paypal") {
+        creditCard.style.display = 'none';
+        paypal.style.display = 'block';
+        bitcoin.style.display = 'none';
+    }
+    if (e.target.value === "bitcoin") {
+        creditCard.style.display = 'none';
+        paypal.style.diplay = 'none';
+        bitcoin.style.display = 'block';
+    }
+});
+
+//Form Validation
+const form = document.querySelector('form');
+
+const emailAddress = document.querySelector('#email');
+const cardNumber = document.querySelector('#cc-num');
+const zipCode = document.querySelector('#zip');
+const cvv = document.querySelector('#cvv');
+
+form.addEventListener("submit", (e) => {
+
+    let nameValue = personName.value;
+    const testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
+    testInput(testName, personName, e);
+
+    
+})

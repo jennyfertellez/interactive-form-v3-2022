@@ -90,105 +90,51 @@ const cardNumber = document.querySelector('#cc-num');
 const zipCode = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 
-function nameValidation() {
+function testInput(input,validInput, e) {
+    if(!input){
+        validInput.parentNode.classList.add('not-valid');
+        validInput.parentNode.classList.remove('valid');
+        validInput.parentNode.lastElementChild.style.display = 'block';
+        e.preventDefault();
+       } else {
+       validInput.parentNode.classList.add('valid');
+       validInput.parentNode.classList.remove('not-valid');
+       validInput.parentNode.lastElementChild.style.display = 'none';
+       }
+};
+
+function activitiesSelected(e) {
+    if(checkbox.length == 0){
+        registration.classList.add('not-valid');
+        registration.classList.remove('valid');
+        registration.lastElementChild.style.display = 'block';
+        e.preventDefault();
+    } else {
+        registration.classList.add('valid');
+        registration.classList.remove('not-valid');
+        registration.lastElementChild.style.display = 'none';
+    }
+}
+form.addEventListener("submit", (e) => {
+
     let nameValue = personName.value;
     let testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
-    if(!testName.test(nameValue)){
-        return false;
-    } else{
-        return true;
-    }
-}
+    testInput(testName, personName, e);
 
-function emailValidation() {
     let emailValid = emailAddress.value;
     let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!testEmail.test(emailValid)){
-        return false;
-    } else {
-        return true;
-    }
-}
+    testInput(testEmail, emailAddress, e);
 
-function cardValidation() {
+if (payWith === 'credit-card'){
     let cardValid = cardNumber.value;
     let testCard = /^\d{13,16}$/;
-    if(!testCard.test(cardValid)){
-        return false;
-    } else {
-        return true;
-    }
-}
+    testInput(testCard, cardNumber, e);
 
-function zipValidation() {
     let zipValid = zipCode.value;
-    let testZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/; 
-    if(!testZip.test(zipValid)){
-      return false;
-    } else{
-      return true;
-    }
-  }
-  
-function cvvValidation() {
+    let testZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+    testInput(testZip, zipCode, e);
+
     let cvvValid = cvvInput.value;
     let testCvv = /^\d{3}$/;
-    if(!testCvv.test(cvvValid)){
-      return false;
-    } else{
-      return true;
-    }
-  }
-
-
-function notValidForm(element){
-    element.parentElement.classList.add("not-valid");
-    element.parentElement.classList.remove("valid");
-    element.parentElement.querySelector(".hint").style.display = "block";
-  }
-  
-function validForm(element){
-    element.parentElement.classList.add("valid");
-    element.parentElement.classList.remove("not-valid");
-    element.parentElement.querySelector(".hint").style.display = "none";
-  
-}
-
-form.addEventListener("submit", (e) => {
-    const nameInput = nameValidation();
-    const emailInput = emailValidation();
-    const cardInput = cardValidation();
-    const zipInput = zipValidation();
-    const cvvInput = cvvValidation();
-
-    if(nameInput == false) {
-        e.preventDefault();
-        notValidForm(personName);
-    } else {
-        validForm(personName);
-    }
-
-    if(emailInput == false) {
-        e.preventDefault();
-        notValidForm(emailAddress);
-    } else {
-        validForm(emailAddress);
-    }   
-
-    if()
-
-    if(cardInput == false) {
-        e.preventDefault();
-        notValidForm(cardNumber);
-    } else {
-        validForm(cardNumber);
-    }
-
-    if(nameInput == false) {
-        e.preventDefault();
-        notValidForm(nameField);
-    } else {
-        validForm(nameField);
-    }
-
-})
+    testInput(testCvv, cvvInput, e);
+}});

@@ -44,7 +44,7 @@ designChosen.addEventListener('change', (e) => {
 const registration = document.querySelector(".activities");
 const total = document.getElementById("activities-cost");
 let totalCost = 0;
-console.log(registration);
+
 registration.addEventListener("change", (e) => {
     const cost = e.target.getAttribute("data-cost");
     const totalData = +cost;
@@ -55,12 +55,13 @@ registration.addEventListener("change", (e) => {
         totalCost -= totalData;
     }
     total.innerHTML = `Total: $${totalCost}`
+  
 });
 
 //"Payment Info" Section
 //Updates the payment option when a payment method is selected 
 let payWith = document.getElementById('payment');
-let creditCard = document.getElementById('credit-card');
+let creditCard = document.querySelector('.credit-card');
 let paypal = document.getElementById('paypal');
 let bitcoin = document.getElementById('bitcoin');
 
@@ -95,78 +96,128 @@ payWith.addEventListener("change", (e) => {
 //Missing information will cause the form to redirect and not submit 
 const form = document.querySelector('form');
 
-const emailAddress = document.querySelector('#email');
+const emailAddress = document.getElementById('email');
 const cardNumber = document.querySelector('#cc-num');
 const zipCode = document.querySelector('#zip');
-const cvv = document.querySelector('#cvv');
+const cvv = document.getElementById('cvv');
 
-function testInput(input,validInput, e) {
-    if(!input){
-        //not valid form 
-        validInput.parentNode.classList.add('not-valid');
-        validInput.parentNode.classList.remove('valid');
-        validInput.parentNode.lastElementChild.style.display = 'block';
+//Helper Functions
+// Testing sections are meeting the requirements before submission
+function nameValidation() {
+    let nameValue = personName.value;
+    let nameIsValid = /^[a-zA-z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
+    return nameIsValid;
+}
+
+function emailValidation() {
+    let emailValue = emailAddress.value;
+    let emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
+    return emailIsValid;
+}
+
+function activitiesValidation() {
+    let activitiesIsValid = totalCost > 0;
+    return activitiesIsValid;
+}
+
+function creditCardValidation() {
+    let cardValid = cardNumber.value;
+    let creditCardIsValid = /^[0-9]{13,16}$/.test(cardValid);
+    return creditCardIsValid;
+}
+
+function cvvValidation() {
+    let cvvValid = cvv.value;
+    let cvvIsValid = /^\d{3}$/.test(cvvValid);
+    return cvvIsValid;
+}
+
+function zipValidation() {
+    let zipValid = zipCode.value;
+    let zipcodeIsValid = /^\d{5}$/.test(zipValid);
+    return zipcodeIsValid;
+}
+
+//Submit button is listening to prevent users from submitting the form with errors 
+form.addEventListener("submit", (e) => {
+    if (!nameValidation()){
         e.preventDefault();
-        //valid form 
-       } else {
-       validInput.parentNode.classList.add('valid');
-       validInput.parentNode.classList.remove('not-valid');
-       validInput.parentNode.lastElementChild.style.display = 'none';
-       }
-};
-
-//Activities are selected
-function activitiesSelected(e) {
-    const checkbox = registration.querySelectorAll("input[type=checkbox]");
-
-    if(checkbox.length == 0){
-        //no box checked
-        registration.classList.add('not-valid');
-        registration.classList.remove('valid');
-        registration.lastElementChild.style.display = 'block';
-        e.preventDefault();
-        //box is checked
+        personName.parentElement.classList.add('not-valid');
+        personName.parentElement.classList.remove('valid');
+        personName.nextElementSibling.style.display = 'block';
     } else {
-        registration.classList.add('valid');
-        registration.classList.remove('not-valid');
-        registration.lastElementChild.style.display = 'none';
+        personName.parentElement.classList.add('valid');
+        personName.parentElement.classList.remove('not-valid');
+        personName.nextElementSibling.style.display = 'none';
+    }
+
+    if (!emailValidation()){
+        e.preventDefault();
+        emailAddress.parentElement.classList.add('not-valid');
+        emailAddress.parentElement.classList.remove('valid');
+        emailAddress.nextElementSibling.style.display = 'block';
+    } else {
+        emailAddress.parentElement.classList.add('valid');
+        emailAddress.parentElement.classList.remove('not-valid');
+        emailAddress.nextElementSibling.style.display = 'none';
+    }
+    
+    if (!activitiesValidation()){
+        e.preventDefault();
+        registration.parentElement.classList.add('not-valid');
+        registration.parentElement.classList.remove('valid');
+        registration.nextElementSibling.style.display = 'block';
+    } else {
+        registration.parentElement.classList.add('valid');
+        registration.parentElement.classList.remove('not-valid');
+        registration.nextElementSibling.style.display = 'none';
+    }
+//Ensuring all credit card fiels components are included before submission
+if (payWith.value === 'credit-card'){
+    if (!creditCardValidation()){
+        e.preventDefault();
+        cardNumber.parentElement.classList.add('not-valid');
+        cardNumber.parentElement.classList.remove('valid');
+        cardNumber.nextElementSibling.style.display = 'block';
+    } else {
+        cardNumber.parentElement.classList.add('valid');
+        cardNumber.parentElement.classList.remove('not-valid');
+        cardNumber.nextElementSibling.style.display = 'none';
+    }
+
+    if (!cvvValidation()){
+        e.preventDefault();
+        cvv.parentElement.classList.add('not-valid');
+        cvv.parentElement.classList.remove('valid');
+        cvv.nextElementSibling.style.display = 'block';
+    } else {
+        cvv.parentElement.classList.add('valid');
+        cvv.parentElement.classList.remove('not-valid');
+        cvv.nextElementSibling.style.display = 'none';
+    }
+
+    if (!zipValidation()){
+        e.preventDefault();
+        zipCode.parentElement.classList.add('not-valid');
+        zipCode.parentElement.classList.remove('valid');
+        zipCode.nextElementSibling.style.display = 'block';
+    } else {
+        zipCode.parentElement.classList.add('valid');
+        zipCode.parentElement.classList.remove('not-valid');
+        zipCode.nextElementSibling.style.display = 'none';
     }
 }
-form.addEventListener("submit", (e) => {
-//Name field is filled out
-    let nameValue = personName.value;
-    let testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
-    testInput(testName, personName, e);
-    console.log(testName);
-//Email field is filled out
-    let emailValid = emailAddress.value;
-    let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    testInput(testEmail, emailAddress, e);
-    activitiesSelected(e);
-//Credit card field is filled out
-if (payWith === 'credit-card'){
-    let cardValid = cardNumber.value;
-    let testCard = /^\d{13,16}$/;
-    testInput(testCard, cardNumber, e);
-//Zipcode field is filled out and has a limitation of 5 digits
-    let zipValid = zipCode.value;
-    let testZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
-    testInput(testZip, zipCode, e);
-//CVV field is filled out and has a limitation of 3  digits
-    let cvvValid = cvvInput.value;
-    let testCvv = /^\d{3}$/;
-    testInput(testCvv, cvvInput, e);
-}});
+});
 
 //Accessibility
 //Accomodoations made for users with impairments
-const checkboxes = document.querySelectorAll("input[type=checkbox]");
+const checkBoxes = document.querySelectorAll("input[type=checkbox]");
 
-checkboxes.forEach(activity => {
+checkBoxes.forEach(activity => {
     activity.addEventListener('focus', e => {
         e.target.parentNode.classList.add('focus');
-    })
+    });
     activity.addEventListener('blur', e => {
         e.target.parentNode.classList.remove('focus');
     })
-});
+}); 

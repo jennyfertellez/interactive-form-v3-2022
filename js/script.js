@@ -49,7 +49,7 @@ registration.addEventListener("change", (e) => {
     const cost = e.target.getAttribute("data-cost");
     const totalData = +cost;
 
-    if (e.target.checked) {
+    if (e.target.checked === true) {
         totalCost += totalData;
     } else {
         totalCost -= totalData;
@@ -68,7 +68,7 @@ let bitcoin = document.getElementById('bitcoin');
 paypal.style.display = 'none';
 bitcoin.style.display = 'none';
 
-payWith.children[1].setAttribute('selected', true);
+payWith.children[1].selected = true;
 
 payWith.addEventListener("change", (e) => {
     //paying with paypal removes the credit card and bitcoin option 
@@ -115,9 +115,24 @@ function emailValidation() {
     return emailIsValid;
 }
 
-function activitiesValidation() {
+/*function activitiesValidation() {
     let activitiesIsValid = totalCost > 0;
     return activitiesIsValid;
+}*/
+
+function activitiesSelected(e){
+    const checkBoxes = document.querySelectorAll("input[type=checkbox]");
+    if(checkBoxes.length == 0) {
+        registration.classList.add('not-valid');
+            registration.classList.remove('valid');
+            registration.lastElementChild.style.display = 'block';
+            e.preventDefault();
+        } else {
+            //Valid
+            registration.classList.add('valid');
+            registration.classList.remove('not-valid');
+            registration.lastElementChild.style.display = 'none';
+        }
 }
 
 function creditCardValidation() {
@@ -137,7 +152,6 @@ function zipValidation() {
     let zipcodeIsValid = /^\d{5}$/.test(zipValid);
     return zipcodeIsValid;
 }
-
 //Submit button is listening to prevent users from submitting the form with errors 
 form.addEventListener("submit", (e) => {
     if (!nameValidation()){
@@ -162,16 +176,17 @@ form.addEventListener("submit", (e) => {
         emailAddress.nextElementSibling.style.display = 'none';
     }
     
-    if (!activitiesValidation()){
+    /*if (!activitiesValidation()){
         e.preventDefault();
         registration.parentElement.classList.add('not-valid');
         registration.parentElement.classList.remove('valid');
-        registration.nextElementSibling.style.display = 'block';
+        registration.nextElementSibling.style.display = 'inherit';
     } else {
         registration.parentElement.classList.add('valid');
         registration.parentElement.classList.remove('not-valid');
         registration.nextElementSibling.style.display = 'none';
-    }
+    } */
+
 //Ensuring all credit card fiels components are included before submission
 if (payWith.value === 'credit-card'){
     if (!creditCardValidation()){

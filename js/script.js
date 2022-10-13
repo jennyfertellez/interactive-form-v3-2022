@@ -41,11 +41,10 @@ designChosen.addEventListener('change', (e) => {
 
 //"Register for Activities" Section
 //Updates the total amount owed once items are checked or unchecked
-const registration = document.getElementById("activities");
+const registration = document.querySelector(".activities");
 const total = document.getElementById("activities-cost");
 let totalCost = 0;
-
-
+console.log(registration);
 registration.addEventListener("change", (e) => {
     const cost = e.target.getAttribute("data-cost");
     const totalData = +cost;
@@ -103,10 +102,12 @@ const cvv = document.querySelector('#cvv');
 
 function testInput(input,validInput, e) {
     if(!input){
+        //not valid form 
         validInput.parentNode.classList.add('not-valid');
         validInput.parentNode.classList.remove('valid');
         validInput.parentNode.lastElementChild.style.display = 'block';
         e.preventDefault();
+        //valid form 
        } else {
        validInput.parentNode.classList.add('valid');
        validInput.parentNode.classList.remove('not-valid');
@@ -114,15 +115,17 @@ function testInput(input,validInput, e) {
        }
 };
 
-const checkbox = document.querySelectorAll("input[type=checkbox]");
-
-//Indication that a field is valid or invalid
+//Activities are selected
 function activitiesSelected(e) {
+    const checkbox = registration.querySelectorAll("input[type=checkbox]");
+
     if(checkbox.length == 0){
+        //no box checked
         registration.classList.add('not-valid');
         registration.classList.remove('valid');
         registration.lastElementChild.style.display = 'block';
         e.preventDefault();
+        //box is checked
     } else {
         registration.classList.add('valid');
         registration.classList.remove('not-valid');
@@ -134,6 +137,7 @@ form.addEventListener("submit", (e) => {
     let nameValue = personName.value;
     let testName = /^[^\s][a-zA-z|\s]*$/i.test(nameValue);
     testInput(testName, personName, e);
+    console.log(testName);
 //Email field is filled out
     let emailValid = emailAddress.value;
     let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -156,7 +160,9 @@ if (payWith === 'credit-card'){
 
 //Accessibility
 //Accomodoations made for users with impairments
-checkbox.forEach(activity => {
+const checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+checkboxes.forEach(activity => {
     activity.addEventListener('focus', e => {
         e.target.parentNode.classList.add('focus');
     })

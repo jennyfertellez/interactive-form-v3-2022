@@ -23,6 +23,7 @@ var shirtColor = document.getElementById("color");
 var colorOption = shirtColor.children;
 
 designChosen.addEventListener('change', (e) => {
+    e.preventDefault();
     shirtColor.disabled = false;
     for (let i = 0; i < colorOption.length; i ++) {
         if (e.target.value === colorOption[i].getAttribute("data-theme")) {
@@ -138,3 +139,15 @@ if (payWith === 'credit-card'){
     let testCvv = /^\d{3}$/;
     testInput(testCvv, cvvInput, e);
 }});
+
+//Accessibility
+const _checkbox = document.querySelectorAll('input[type=checkbox]');
+
+_checkbox.forEach(activity => {
+    activity.addEventListener('focus', e => {
+        e.target.parentNode.classList.add('focus');
+    })
+    activity.addEventListener('blur', e => {
+        e.target.parentNode.classList.remove('focus');
+    })
+});

@@ -71,23 +71,23 @@ bitcoin.style.display = 'none';
 payWith.children[1].setAttribute('selected', true);
 
 payWith.addEventListener("change", (e) => {
-    //paying with credit card removes the paypal and bitcoin option 
-    if (e.target.value === 'credit-card') {
-        creditCard.style.display = 'block';
-        paypal.style.display = 'none';
-        bitcoin.style.display = 'none';
-    }
     //paying with paypal removes the credit card and bitcoin option 
     if (e.target.value === "paypal") {
-        creditCard.style.display = 'none';
-        paypal.style.display = 'block';
-        bitcoin.style.display = 'none';
+        creditCard.style.display = "none";
+        bitcoin.style.display = "none";
+        paypal.style.display = "block";
+    } 
+    //paying with credit card removes the paypal and bitcoin option 
+    else {
+        creditCard.style.display = "block";
+        bitcoin.style.display = "none";
+        paypal.style.display = "none";
     }
     //paying with bitcoin removes the credit card and paypal option
     if (e.target.value === "bitcoin") {
-        creditCard.style.display = 'none';
-        paypal.style.diplay = 'none';
-        bitcoin.style.display = 'block';
+        creditCard.style.display = "none";
+        paypal.style.display = "none";
+        bitcoin.style.display = "block";
     }
 });
 
@@ -138,6 +138,7 @@ form.addEventListener("submit", (e) => {
     let emailValid = emailAddress.value;
     let testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     testInput(testEmail, emailAddress, e);
+    activitiesSelected(e);
 //Credit card field is filled out
 if (payWith === 'credit-card'){
     let cardValid = cardNumber.value;

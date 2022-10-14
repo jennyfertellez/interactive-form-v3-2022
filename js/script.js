@@ -101,6 +101,23 @@ const cardNumber = document.querySelector('#cc-num');
 const zipCode = document.querySelector('#zip');
 const cvv = document.getElementById('cvv');
 
+//Testing to ensure activities are selected
+function activitiesSelected(e){
+    const checkBoxes = document.querySelectorAll("input[type=checkbox]");
+    if(checkBoxes.length == 0) {
+        //Invalid
+        registration.classList.add('not-valid');
+            registration.classList.remove('valid');
+            registration.lastElementChild.style.display = 'block';
+            e.preventDefault();
+        } else {
+            //Valid
+            registration.classList.add('valid');
+            registration.classList.remove('not-valid');
+            registration.lastElementChild.style.display = 'none';
+        }
+}
+
 //Helper Functions
 // Testing sections are meeting the requirements before submission
 function nameValidation() {
@@ -113,26 +130,6 @@ function emailValidation() {
     let emailValue = emailAddress.value;
     let emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
     return emailIsValid;
-}
-
-/*function activitiesValidation() {
-    let activitiesIsValid = totalCost > 0;
-    return activitiesIsValid;
-}*/
-
-function activitiesSelected(e){
-    const checkBoxes = document.querySelectorAll("input[type=checkbox]");
-    if(checkBoxes.length == 0) {
-        registration.classList.add('not-valid');
-            registration.classList.remove('valid');
-            registration.lastElementChild.style.display = 'block';
-            e.preventDefault();
-        } else {
-            //Valid
-            registration.classList.add('valid');
-            registration.classList.remove('not-valid');
-            registration.lastElementChild.style.display = 'none';
-        }
 }
 
 function creditCardValidation() {
@@ -175,17 +172,6 @@ form.addEventListener("submit", (e) => {
         emailAddress.parentElement.classList.remove('not-valid');
         emailAddress.nextElementSibling.style.display = 'none';
     }
-    
-    /*if (!activitiesValidation()){
-        e.preventDefault();
-        registration.parentElement.classList.add('not-valid');
-        registration.parentElement.classList.remove('valid');
-        registration.nextElementSibling.style.display = 'inherit';
-    } else {
-        registration.parentElement.classList.add('valid');
-        registration.parentElement.classList.remove('not-valid');
-        registration.nextElementSibling.style.display = 'none';
-    } */
 
 //Ensuring all credit card fiels components are included before submission
 if (payWith.value === 'credit-card'){
